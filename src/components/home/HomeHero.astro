@@ -1,0 +1,107 @@
+---
+import Img from '../site/Img.astro';
+import { home, company } from '../../data/site';
+---
+<section class="hh" data-hh>
+  <Img name="interview-hero" class="hh__media" sizes="100vw" eager position="62% 40%" />
+  <div class="hh__shade" aria-hidden="true"></div>
+  <!-- Intro: four panels part around a gold "I" window (transforms only). Skipped by any input. -->
+  <div class="hh__intro" aria-hidden="true" data-hh-intro>
+    <span class="hh__p hh__p--l"></span><span class="hh__p hh__p--r"></span>
+    <span class="hh__p hh__p--t"></span><span class="hh__p hh__p--b"></span>
+    <span class="hh__gold"></span>
+  </div>
+  <div class="container hh__inner">
+    <p class="label hh__label" data-hh-in><span class="hh__tick" aria-hidden="true"></span>{company.sectors.join(' · ')}</p>
+    <h1 class="hh__title" data-hh-in>{home.h1}</h1>
+    <p class="hh__intro-copy" data-hh-in>{home.intro}</p>
+    <div class="hh__actions" data-hh-in>
+      <a class="btn" href="/contact" data-magnetic>Contact now <span class="arr">→</span></a>
+      <a class="btn btn--ghost" href={company.phoneHref}>{company.phone}</a>
+    </div>
+  </div>
+  <nav class="hh__paths" aria-label="Choose a path" data-hh-in>
+    <a href="/clients" class="hh__path"><span class="label">For employers</span><span class="hh__path-t">Clients</span><span class="arr" aria-hidden="true">→</span></a>
+    <a href="/candidates" class="hh__path"><span class="label">For job seekers</span><span class="hh__path-t">Candidates</span><span class="arr" aria-hidden="true">→</span></a>
+    <a href="/permanent-recruitment" class="hh__path hh__path--gold"><span class="label">Permanent roles</span><span class="hh__path-t">Permanent</span><span class="arr" aria-hidden="true">→</span></a>
+  </nav>
+</section>
+
+<style>
+  .hh { position: relative; min-height: 100svh; display: grid; grid-template-rows: 1fr auto; background: var(--c-stage); color: var(--c-paper); overflow: hidden; isolation: isolate; }
+  .hh__media { position: absolute; inset: 0; z-index: -3; }
+  .hh__media :global(img) { transform: scale(1.04); }
+  .hh__shade { position: absolute; inset: 0; z-index: -2; background:
+      linear-gradient(90deg, rgba(28,8,11,.94) 0%, rgba(28,8,11,.78) 40%, rgba(124,1,32,.18) 75%, rgba(28,8,11,.25) 100%),
+      linear-gradient(0deg, rgba(28,8,11,.85) 0%, rgba(28,8,11,0) 35%); }
+  .hh__inner { align-self: center; display: grid; gap: var(--sp-5); padding-top: calc(var(--header-h) + var(--sp-7)); padding-bottom: var(--sp-7); }
+  .hh__label { display: flex; align-items: center; gap: .75em; color: var(--c-gold); }
+  .hh__tick { width: 6px; height: 18px; background: var(--c-gold); }
+  .hh__title { font-size: var(--fs-hero); font-weight: 900; max-width: 19ch; }
+  .hh__intro-copy { max-width: 60ch; color: rgba(250,248,245,.82); font-size: var(--fs-body-lg); }
+  .hh__actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-2); }
+  .hh__paths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--c-line-inv); background: rgba(28,8,11,.55); }
+  .hh__path { position: relative; display: grid; gap: var(--sp-1); padding: var(--sp-5) var(--gutter); text-decoration: none; border-right: 1px solid var(--c-line-inv); transition: background var(--dur) var(--ease-out); }
+  .hh__path:last-child { border-right: 0; }
+  .hh__path .label { color: rgba(250,248,245,.6); }
+  .hh__path-t { font-family: var(--f-display); font-weight: 800; font-size: var(--fs-statement); }
+  .hh__path .arr { position: absolute; right: var(--gutter); top: 50%; translate: 0 -50%; color: var(--c-gold); font-size: 1.5rem; transition: transform var(--dur) var(--ease-out); }
+  .hh__path:hover { background: rgba(124,1,32,.55); }
+  .hh__path:hover .arr { transform: translateX(6px); }
+  .hh__path--gold { background: var(--c-gold); color: var(--c-stage); }
+  .hh__path--gold .label { color: var(--c-burgundy); }
+  .hh__path--gold .arr { color: var(--c-burgundy); }
+  .hh__path--gold:hover { background: var(--c-gold-hi); }
+
+  .hh__intro { position: absolute; inset: 0; z-index: 5; pointer-events: none; display: none; }
+  :global(.js) .hh__intro.is-playing { display: block; }
+  .hh__p { position: absolute; inset: 0; background: var(--c-stage); will-change: transform; }
+  .hh__gold { position: absolute; left: 50%; top: 50%; background: var(--c-gold); will-change: transform, opacity; }
+
+  @media (max-width: 860px) {
+    .hh__paths { grid-template-columns: minmax(0, 1fr); }
+    .hh__path { border-right: 0; border-bottom: 1px solid var(--c-line-inv); padding-block: var(--sp-4); }
+    .hh__shade { background: linear-gradient(180deg, rgba(28,8,11,.7) 0%, rgba(28,8,11,.92) 55%); }
+    .hh__media :global(img) { object-position: 70% 30% !important; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  const hh = document.querySelector('[data-hh]');
+  const intro = hh?.querySelector('[data-hh-intro]');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (hh && intro && !reduced) {
+    const W = innerWidth, H = hh.clientHeight;
+    const ww = Math.max(18, Math.round(W * 0.028)), wh = Math.round(Math.min(H * 0.42, 360));
+    const [L, R, T, B] = intro.querySelectorAll('.hh__p');
+    const gold = intro.querySelector('.hh__gold');
+    const img = hh.querySelector('.hh__media img');
+    const ins = hh.querySelectorAll('[data-hh-in]');
+    const hdr = document.querySelector('[data-header]');
+    intro.classList.add('is-playing');
+    gsap.set([L, R, T, B], { x: 0, y: 0 });
+    gsap.set(gold, { width: ww, height: wh, xPercent: -50, yPercent: -50, scaleY: 0, transformOrigin: '50% 100%' });
+    gsap.set(img, { scale: 1.35 });
+    gsap.set(ins, { opacity: 0, y: 20 });
+    gsap.set(hdr, { opacity: 0 });
+    const tl = gsap.timeline({ onComplete: done });
+    tl.to(gold, { scaleY: 1, duration: 0.5, ease: 'power3.out' })
+      // once the gold bar fills the window, open the hole behind it (invisible swap)
+      .set(L, { x: -(W / 2 + ww / 2) }).set(R, { x: W / 2 + ww / 2 })
+      .set(T, { y: -(H / 2 + wh / 2) }).set(B, { y: H / 2 + wh / 2 })
+      .to(gold, { opacity: 0, duration: 0.35, ease: 'power1.inOut' }, 0.55)
+      .to(L, { x: -W, duration: 1.0, ease: 'expo.inOut' }, 0.85)
+      .to(R, { x: W, duration: 1.0, ease: 'expo.inOut' }, 0.85)
+      .to(T, { y: -H, duration: 1.0, ease: 'expo.inOut' }, 0.85)
+      .to(B, { y: H, duration: 1.0, ease: 'expo.inOut' }, 0.85)
+      .to(img, { scale: 1.04, duration: 1.4, ease: 'expo.out' }, 0.85)
+      .to(hdr, { opacity: 1, duration: 0.4 }, 1.7)
+      .to(ins, { opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: 'power3.out' }, 1.7);
+    function done() { intro.classList.remove('is-playing'); gsap.set([...ins, hdr, img], { clearProps: 'all' }); off(); }
+    function skip() { if (tl.isActive()) tl.progress(1); }
+    const evs = ['pointerdown', 'keydown', 'wheel', 'touchstart'];
+    evs.forEach((e) => addEventListener(e, skip, { passive: true }));
+    function off() { evs.forEach((e) => removeEventListener(e, skip)); }
+  }
+</script>

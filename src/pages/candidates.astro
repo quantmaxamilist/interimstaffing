@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/site/PageHero.astro';
+import Split from '../components/site/Split.astro';
+import EnquiryBand from '../components/site/EnquiryBand.astro';
+import NextTeaser from '../components/site/NextTeaser.astro';
+import WowAssemble from '../components/wow/WowAssemble.astro';
+import Reviews from '../components/site/Reviews.astro';
+import CrossLink from '../components/perm/CrossLink.astro';
+import { candidates, perm } from '../data/site';
+---
+<Base title={candidates.title} description={candidates.intro.slice(0, 155)} crumbs={[{ name: 'Candidates', href: '/candidates' }]}>
+  <PageHero label="For job seekers" title={candidates.h1} intro={candidates.intro} image="welder" position="50% 50%" cta={{ label: 'Contact now', href: '/contact?who=candidate' }} />
+  <Split index={1} h2={candidates.sections[0].h2} body={candidates.sections[0].body} image={candidates.sections[0].image} />
+  <WowAssemble label="Permanent · temporary · contract" h2={candidates.sections[1].h2} body={candidates.sections[1].body} image="stock-check" pos="62% 45%"
+    links={[
+      { label: 'Permanent work', href: '/permanent-recruitment/candidates', gold: true },
+      { label: 'Temporary assignments', href: '/contact?who=candidate&type=temporary' },
+      { label: 'Contract roles', href: '/contact?who=candidate&type=contract' },
+    ]} />
+  <Split index={2} h2={candidates.sections[2].h2} body={candidates.sections[2].body} image={candidates.sections[2].image} flip tone="paper-2" />
+  <Reviews audience="candidate" tone="paper" />
+  <CrossLink label="Permanent placements" title="Find a permanent role" text={perm.candidateLine} href="/permanent-recruitment/candidates" />
+  <EnquiryBand text={candidates.cta} href="/contact?who=candidate" />
+  <NextTeaser label="Permanent placements" title="Permanent Recruitment" href="/permanent-recruitment" />
+</Base>

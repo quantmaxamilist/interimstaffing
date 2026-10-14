@@ -1,0 +1,40 @@
+---
+import Img from './Img.astro';
+interface Props { index: number; h2: string; body: string; image: string; flip?: boolean; tone?: 'paper' | 'paper-2' }
+const { index, h2, body, image, flip = false, tone = 'paper' } = Astro.props;
+const tall = image === 'team-discussion' || image === 'small-business';
+---
+<section class:list={['split', `split--${tone}`, { 'split--flip': flip }]}>
+  <div class="container split__grid">
+    <div class="split__text">
+      <p class="label split__num" data-reveal>{String(index).padStart(2, '0')}</p>
+      <h2 class="split__h" data-reveal>{h2}</h2>
+      <p class="split__body" data-reveal data-reveal-delay="0.06">{body}</p>
+      <slot />
+    </div>
+    <div class="split__media" data-reveal>
+      <Img name={image} class:list={['split__img', { 'split__img--tall': tall }]} parallax />
+      <span class="split__bar" aria-hidden="true"></span>
+    </div>
+  </div>
+</section>
+<style>
+  .split { padding-block: var(--section); }
+  .split--paper-2 { background: var(--c-paper-2); }
+  .split__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 7rem); align-items: center; }
+  .split--flip .split__media { order: -1; }
+  .split__num { color: var(--c-burgundy); display: flex; align-items: center; gap: .75em; }
+  .split__num::after { content: ''; height: 1px; width: 48px; background: currentColor; opacity: .4; }
+  .split__h { font-size: var(--fs-display-3); color: var(--c-burgundy); margin: var(--sp-4) 0 var(--sp-5); max-width: 20ch; }
+  .split__body { color: var(--c-ink-2); font-size: var(--fs-body-lg); max-width: 58ch; }
+  .split__media { position: relative; }
+  .split__img { aspect-ratio: 4 / 3; border-radius: var(--radius); }
+  .split__img--tall { aspect-ratio: 4 / 5; max-height: 640px; }
+  .split__bar { position: absolute; width: 10px; height: 38%; background: var(--c-gold); left: -5px; bottom: -24px; }
+  .split--flip .split__bar { left: auto; right: -5px; }
+  @media (max-width: 860px) {
+    .split__grid { grid-template-columns: minmax(0, 1fr); }
+    .split--flip .split__media { order: 0; }
+    .split__img--tall { aspect-ratio: 4 / 3; }
+  }
+</style>

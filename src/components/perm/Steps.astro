@@ -1,0 +1,33 @@
+---
+interface Props { label: string; title: string; steps: { h: string; p: string }[]; tone?: 'paper' | 'paper-2' }
+const { label, title, steps, tone = 'paper' } = Astro.props;
+---
+<section class:list={['st', `st--${tone}`]}>
+  <div class="container">
+    <p class="label st__label" data-reveal>{label}</p>
+    <h2 class="st__h" data-reveal>{title}</h2>
+    <ol class="st__list" style={`--n:${steps.length}`}>
+      {steps.map((s, i) => (
+        <li class="st__item" data-reveal data-reveal-delay={String(i * 0.07)}>
+          <span class="st__num">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="st__t">{s.h}</h3>
+          <p class="st__p">{s.p}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+<style>
+  .st { padding-block: var(--section); }
+  .st--paper-2 { background: var(--c-paper-2); }
+  .st__label { color: var(--c-burgundy); }
+  .st__h { font-size: var(--fs-display-2); color: var(--c-burgundy); margin: var(--sp-4) 0 var(--sp-7); max-width: 16ch; }
+  .st__list { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: var(--sp-5); counter-reset: s; }
+  .st__item { position: relative; padding-top: var(--sp-6); border-top: 2px solid var(--c-burgundy); }
+  .st__item::before { content: ''; position: absolute; left: 0; top: -2px; width: 36%; height: 2px; background: var(--c-gold); }
+  .st__num { font-family: var(--f-display); font-weight: 900; font-size: var(--fs-display-3); color: var(--c-gold); line-height: 1; }
+  .st__t { font-size: clamp(1.25rem, 1rem + .6vw, 1.625rem); margin: var(--sp-4) 0 var(--sp-3); color: var(--c-ink); }
+  .st__p { color: var(--c-ink-2); }
+  @media (max-width: 960px) { .st__list { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--sp-7); } }
+  @media (max-width: 560px) { .st__list { grid-template-columns: minmax(0, 1fr); } }
+</style>

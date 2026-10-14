@@ -1,0 +1,34 @@
+---
+import { perm, home } from '../../data/site';
+const line = home.pillars[2];
+---
+<section class="lv">
+  <div class="container lv__grid">
+    <div>
+      <p class="label lv__label" data-reveal>Levels</p>
+      <h2 class="lv__h" data-reveal>{line.h}</h2>
+      <p class="lv__p" data-reveal>{line.p}</p>
+    </div>
+    <ol class="lv__steps" aria-label="Levels we recruit for">
+      {perm.levels.map((l, i) => (
+        <li class="lv__step" style={`--i:${i}`} data-reveal data-reveal-delay={String(i * 0.08)}>
+          <span class="lv__block"></span>
+          <span class="lv__name">{l}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+<style>
+  .lv { background: var(--c-burgundy); color: var(--c-paper); padding-block: var(--section); }
+  .lv__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 6vw, 6rem); align-items: end; }
+  .lv__label { color: var(--c-gold); }
+  .lv__h { font-size: var(--fs-display-3); margin: var(--sp-4) 0 var(--sp-5); max-width: 16ch; }
+  .lv__p { color: rgba(250,248,245,.8); max-width: 44ch; }
+  .lv__steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-3); align-items: end; min-height: 300px; }
+  .lv__step { display: grid; gap: var(--sp-3); }
+  .lv__block { height: calc(70px + var(--i) * 60px); background: linear-gradient(180deg, var(--c-gold), #b8922a); border-radius: 2px 2px 0 0; }
+  .lv__step:not(:last-child) .lv__block { background: rgba(250,248,245,.14); box-shadow: inset 0 3px 0 var(--c-gold); }
+  .lv__name { font-family: var(--f-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; min-height: 2.6em; }
+  @media (max-width: 860px) { .lv__grid { grid-template-columns: minmax(0, 1fr); } .lv__steps { min-height: 0; } .lv__block { height: calc(40px + var(--i) * 34px); } }
+</style>

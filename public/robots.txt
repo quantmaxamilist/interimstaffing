@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://interimstaffing.co.uk/sitemap-index.xml

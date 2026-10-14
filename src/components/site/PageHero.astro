@@ -1,0 +1,35 @@
+---
+import Img from './Img.astro';
+import { company } from '../../data/site';
+interface Props { label: string; title: string; intro?: string; image: string; position?: string; cta?: { label: string; href: string } }
+const { label, title, intro, image, position, cta = { label: 'Contact now', href: '/contact' } } = Astro.props;
+---
+<section class="ph">
+  <Img name={image} class="ph__media" sizes="100vw" eager position={position} />
+  <div class="ph__shade" aria-hidden="true"></div>
+  <div class="container ph__inner">
+    <p class="label ph__label" data-reveal><span class="ph__tick" aria-hidden="true"></span>{label}</p>
+    <h1 class="ph__title" data-reveal data-reveal-delay="0.05">{title}</h1>
+    {intro && <p class="ph__intro" data-reveal data-reveal-delay="0.1">{intro}</p>}
+    <div class="ph__actions" data-reveal data-reveal-delay="0.15">
+      <a class="btn" href={cta.href} data-magnetic>{cta.label} <span class="arr">→</span></a>
+      <a class="btn btn--ghost" href={company.phoneHref}>{company.phone}</a>
+    </div>
+    <slot />
+  </div>
+</section>
+<style>
+  .ph { position: relative; background: var(--c-stage); color: var(--c-paper); padding: calc(var(--header-h) + var(--sp-9)) 0 var(--sp-9); overflow: hidden; isolation: isolate; }
+  .ph__media { position: absolute; inset: 0; z-index: -2; }
+  .ph__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(28,8,11,.96) 0%, rgba(28,8,11,.86) 42%, rgba(124,1,32,.35) 100%); }
+  .ph__inner { display: grid; gap: var(--sp-5); max-width: calc(860px + var(--gutter) * 2); margin-left: 0; margin-left: max(0px, calc((100vw - var(--container)) / 2 - var(--gutter))); }
+  .ph__label { display: flex; align-items: center; gap: .75em; color: var(--c-gold); }
+  .ph__tick { width: 6px; height: 18px; background: var(--c-gold); }
+  .ph__title { font-size: var(--fs-hero); font-weight: 900; max-width: 18ch; }
+  .ph__intro { font-size: var(--fs-body-lg); color: rgba(250,248,245,.82); max-width: 62ch; }
+  .ph__actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: var(--sp-3); }
+  @media (max-width: 760px) {
+    .ph { padding: calc(var(--header-h) + var(--sp-7)) 0 var(--sp-7); }
+    .ph__shade { background: linear-gradient(180deg, rgba(28,8,11,.82), rgba(28,8,11,.95)); }
+  }
+</style>

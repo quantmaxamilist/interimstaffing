@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import HomeHero from './HomeHero.astro';
+import Split from '../site/Split.astro';
+import Pillars from '../site/Pillars.astro';
+import EnquiryBand from '../site/EnquiryBand.astro';
+import Reviews from '../site/Reviews.astro';
+import PermTeaser from '../perm/PermTeaser.astro';
+import WowColumn from '../wow/WowColumn.astro';
+import { home } from '../../data/site';
+const [s1, , s3] = home.sections;
+---
+<Base title={home.title} description={home.intro.slice(0, 155)} >
+  <HomeHero />
+  <Split index={1} h2={s1.h2} body={s1.body} image={s1.image} />
+  <WowColumn />
+  <Split index={2} h2={s3.h2} body={s3.body} image={s3.image} flip tone="paper-2" />
+  <Pillars />
+  <Reviews tone="paper" />
+  <PermTeaser />
+  <EnquiryBand text={home.cta} />
+</Base>

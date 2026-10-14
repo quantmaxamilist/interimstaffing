@@ -1,0 +1,65 @@
+---
+import Logo from './Logo.astro';
+import { nav, company } from '../../data/site';
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(href + '/'));
+---
+<header class="hdr" data-header>
+  <div class="hdr__inner container">
+    <a href="/" class="hdr__logo" aria-label="Interim Staffing — home"><Logo /></a>
+    <nav class="hdr__nav" aria-label="Main">
+      {nav.slice(1).map((n) => (
+        <a href={n.href} class:list={['hdr__link', { 'is-active': isActive(n.href) }]} aria-current={isActive(n.href) ? 'page' : undefined}>{n.label}</a>
+      ))}
+    </nav>
+    <div class="hdr__cta">
+      <a class="hdr__phone" href={company.phoneHref}><span class="label">Call</span> {company.phone}</a>
+      <a class="btn" href="/contact" data-magnetic>Contact now</a>
+    </div>
+    <button class="hdr__burger" aria-expanded="false" aria-controls="menu" data-menu-btn>
+      <span class="sr-only">Menu</span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<div class="menu" id="menu" data-menu hidden>
+  <nav class="menu__nav container" aria-label="Mobile">
+    {nav.map((n, i) => (
+      <a href={n.href} class:list={['menu__link', { 'is-active': isActive(n.href) }]}><span class="label">0{i + 1}</span>{n.label}</a>
+    ))}
+    <div class="menu__foot">
+      <a class="btn" href="/contact">Contact now</a>
+      <a class="btn btn--ghost" href={company.phoneHref}>{company.phone}</a>
+      <a href={`mailto:${company.email}`} class="menu__mail">{company.email}</a>
+    </div>
+  </nav>
+</div>
+<style>
+  .hdr { position: fixed; inset: 0 0 auto; z-index: var(--z-header); height: var(--header-h); color: var(--c-paper);
+    transition: background var(--dur) var(--ease-out), transform var(--dur) var(--ease-out), box-shadow var(--dur); }
+  .hdr.is-solid { background: rgba(28, 8, 11, 0.94); box-shadow: 0 1px 0 var(--c-line-inv); }
+  .hdr.is-hidden { transform: translateY(-100%); }
+  .hdr__inner { height: 100%; display: flex; align-items: center; gap: var(--sp-6); }
+  .hdr__logo { text-decoration: none; font-size: 1.125rem; }
+  .hdr__nav { display: flex; gap: var(--sp-5); margin-left: auto; }
+  .hdr__link, .hdr__phone { position: relative; text-decoration: none; font-size: 0.9375rem; font-weight: 500; height: 44px; display: inline-flex; align-items: center; }
+  .hdr__link::after { content: ''; position: absolute; left: 0; right: 0; bottom: 8px; height: 2px; background: var(--c-gold); transform: scaleX(0); transform-origin: left; transition: transform var(--dur) var(--ease-out); }
+  .hdr__link:hover::after, .hdr__link.is-active::after { transform: scaleX(1); }
+  .hdr__cta { display: flex; align-items: center; gap: var(--sp-5); }
+  .hdr__phone { gap: 0.5em; white-space: nowrap; }
+  .hdr__phone .label { color: var(--c-gold); }
+  .hdr__burger { display: none; width: 44px; height: 44px; margin-left: auto; position: relative; }
+  .hdr__burger span:not(.sr-only) { position: absolute; left: 10px; right: 10px; height: 2px; background: currentColor; transition: transform var(--dur) var(--ease-out); }
+  .hdr__burger span:nth-of-type(2) { top: 17px; } .hdr__burger span:nth-of-type(3) { top: 25px; }
+  .hdr__burger[aria-expanded='true'] span:nth-of-type(2) { transform: translateY(4px) rotate(45deg); }
+  .hdr__burger[aria-expanded='true'] span:nth-of-type(3) { transform: translateY(-4px) rotate(-45deg); }
+  .menu { position: fixed; inset: 0; z-index: var(--z-menu); background: var(--c-stage); color: var(--c-paper); padding-top: calc(var(--header-h) + var(--sp-5)); overflow-y: auto; }
+  .menu__nav { display: flex; flex-direction: column; }
+  .menu__link { display: flex; align-items: baseline; gap: var(--sp-4); padding: var(--sp-4) 0; border-bottom: 1px solid var(--c-line-inv); text-decoration: none; font-family: var(--f-display); font-weight: 800; font-size: var(--fs-display-3); }
+  .menu__link .label { color: var(--c-gold); font-family: var(--f-mono); }
+  .menu__link.is-active { color: var(--c-gold); }
+  .menu__foot { display: flex; flex-wrap: wrap; gap: var(--sp-3); padding: var(--sp-6) 0; }
+  .menu__mail { width: 100%; color: rgba(250,248,245,.7); font-size: var(--fs-small); margin-top: var(--sp-3); }
+  @media (max-width: 1080px) { .hdr__nav { display: none; } .hdr__cta { margin-left: auto; } }
+  @media (max-width: 760px) { .hdr__cta { display: none; } .hdr__burger { display: block; } .hdr__logo { font-size: 1rem; } }
+  :global(.menu-open) .hdr { background: var(--c-stage); }
+</style>

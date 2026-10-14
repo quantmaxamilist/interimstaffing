@@ -1,0 +1,11 @@
+---
+import { images } from '../../data/site';
+interface Props { name: string; class?: string; sizes?: string; eager?: boolean; parallax?: boolean; position?: string }
+const { name, class: cls = '', sizes = '(max-width: 760px) 100vw, 50vw', eager = false, parallax = false, position = 'center' } = Astro.props;
+const im = images[name];
+const smallW = im.h > im.w ? 640 : 960;
+---
+<div class:list={['photo', cls]} data-parallax={parallax ? '' : undefined}>
+  <img src={`${im.src}.jpg`} srcset={`${im.src}-960.jpg ${smallW}w, ${im.src}.jpg ${im.w}w`} sizes={sizes} alt={im.alt}
+    width={im.w} height={im.h} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} style={`object-position:${position}`} />
+</div>

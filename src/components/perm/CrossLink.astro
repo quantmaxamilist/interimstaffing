@@ -1,0 +1,30 @@
+---
+interface Props { label: string; title: string; text: string; href: string }
+const { label, title, text, href } = Astro.props;
+---
+<section class="cl">
+  <div class="container">
+    <a class="cl__card" href={href} data-reveal>
+      <span class="cl__bar" aria-hidden="true"></span>
+      <span class="cl__body">
+        <span class="label cl__label">{label}</span>
+        <span class="cl__t">{title}</span>
+        <span class="cl__p">{text}</span>
+      </span>
+      <span class="cl__arr" aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+<style>
+  .cl { padding-block: 0 var(--section); }
+  .cl__card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: clamp(1rem, 3vw, 3rem); align-items: center; padding: clamp(1.5rem, 3vw, 3rem); background: var(--c-stage); color: var(--c-paper); text-decoration: none; border-radius: var(--radius); transition: background var(--dur) var(--ease-out); }
+  .cl__card:hover { background: var(--c-deep); }
+  .cl__bar { width: 10px; align-self: stretch; background: var(--c-gold); }
+  .cl__body { display: grid; gap: var(--sp-2); }
+  .cl__label { color: var(--c-gold); }
+  .cl__t { font-family: var(--f-display); font-weight: 800; font-size: var(--fs-display-3); line-height: 1.05; }
+  .cl__p { color: rgba(250,248,245,.75); max-width: 60ch; }
+  .cl__arr { font-size: var(--fs-display-3); color: var(--c-gold); transition: transform var(--dur) var(--ease-out); }
+  .cl__card:hover .cl__arr { transform: translateX(8px); }
+  @media (max-width: 560px) { .cl__card { grid-template-columns: auto minmax(0, 1fr); } .cl__arr { display: none; } }
+</style>

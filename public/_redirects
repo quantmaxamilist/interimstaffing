@@ -1,0 +1,8 @@
+/contact-us          /contact  301
+/contact-us/         /contact  301
+/category/allgemein  /         301
+/category/allgemein/ /         301
+/feed                /         301
+/feed/               /         301
+/comments/feed       /         301
+/comments/feed/      /         301

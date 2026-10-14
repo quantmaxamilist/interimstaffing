@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import { company } from '../data/site';
+---
+<Base title="Page not found | Interim Staffing" noindex>
+  <section class="nf">
+    <div class="container nf__inner">
+      <span class="nf__bar" aria-hidden="true"></span>
+      <p class="label nf__label">404</p>
+      <h1 class="nf__h1">Page not found</h1>
+      <div class="nf__actions">
+        <a class="btn" href="/">Home</a>
+        <a class="btn btn--ghost" href="/contact">Contact now</a>
+        <a class="btn btn--ghost" href={company.phoneHref}>{company.phone}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .nf { background: var(--c-stage); color: var(--c-paper); min-height: 80vh; display: grid; align-items: center; padding: calc(var(--header-h) + var(--sp-8)) 0 var(--sp-8); }
+  .nf__inner { display: grid; gap: var(--sp-5); justify-items: start; }
+  .nf__bar { width: 14px; height: 80px; background: var(--c-gold); }
+  .nf__label { color: var(--c-gold); }
+  .nf__h1 { font-size: var(--fs-display-2); }
+  .nf__actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+</style>

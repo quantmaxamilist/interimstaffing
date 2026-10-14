@@ -1,0 +1,49 @@
+---
+import Img from '../site/Img.astro';
+import { perm, contact } from '../../data/site';
+interface Props { variant?: 'home' | 'hub' }
+const { variant = 'home' } = Astro.props;
+---
+<section class:list={['pt2', `pt2--${variant}`]}>
+  <div class="container pt2__grid">
+    {variant === 'home' ? (<div class="pt2__intro">
+      <p class="label pt2__label" data-reveal>Permanent placements</p>
+      <h2 class="pt2__h" data-reveal>{perm.h1}</h2>
+      <p class="pt2__lede" data-reveal>{perm.lede}</p>
+      <a href="/permanent-recruitment" class="btn btn--burgundy" data-reveal data-magnetic>Permanent recruitment <span class="arr">→</span></a>
+    </div>) : (<div class="pt2__intro"><p class="label pt2__label" data-reveal>Choose your route</p><p class="pt2__lede" data-reveal>{contact.body.split('. ')[2]}.</p></div>)}
+    <div class="pt2__cards">
+      <a href="/permanent-recruitment/employers" class="pt2__card" data-reveal>
+        <Img name="interview-panel" class="pt2__img" sizes="(max-width: 860px) 100vw, 30vw" />
+        <span class="label pt2__k">For employers</span>
+        <span class="pt2__t">Permanent hiring <span class="arr" aria-hidden="true">→</span></span>
+        <span class="pt2__p">{perm.employerLine}</span>
+      </a>
+      <a href="/permanent-recruitment/candidates" class="pt2__card" data-reveal data-reveal-delay="0.08">
+        <Img name="stock-check" class="pt2__img" sizes="(max-width: 860px) 100vw, 30vw" />
+        <span class="label pt2__k">For job seekers</span>
+        <span class="pt2__t">Find a permanent role <span class="arr" aria-hidden="true">→</span></span>
+        <span class="pt2__p">{perm.candidateLine}</span>
+      </a>
+    </div>
+  </div>
+</section>
+<style>
+  .pt2 { padding-block: var(--section); background: var(--c-paper); }
+  .pt2__grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 6rem); align-items: start; }
+  .pt2__intro { display: grid; gap: var(--sp-5); justify-items: start; position: sticky; top: calc(var(--header-h) + var(--sp-5)); }
+  .pt2__label { color: var(--c-burgundy); }
+  .pt2__h { font-size: var(--fs-display-2); color: var(--c-burgundy); }
+  .pt2__lede { font-size: var(--fs-body-lg); color: var(--c-ink-2); }
+  .pt2__cards { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-5); }
+  .pt2__card { display: grid; gap: var(--sp-3); align-content: start; text-decoration: none; }
+  .pt2__img { aspect-ratio: 4 / 5; border-radius: var(--radius); margin-bottom: var(--sp-3); }
+  .pt2__img :global(img) { transition: transform .8s var(--ease-out); }
+  .pt2__card:hover .pt2__img :global(img) { transform: scale(1.04); }
+  .pt2__k { color: var(--c-burgundy); }
+  .pt2__t { position: relative; padding-right: 1.6em; font-family: var(--f-display); font-weight: 800; font-size: var(--fs-statement); line-height: 1.1; }
+  .pt2__t .arr { position: absolute; right: 0; top: 0; color: var(--c-burgundy); transition: transform var(--dur) var(--ease-out); }
+  .pt2__card:hover .pt2__t .arr { transform: translateX(6px); }
+  .pt2__p { color: var(--c-ink-2); }
+  @media (max-width: 860px) { .pt2__grid, .pt2__cards { grid-template-columns: minmax(0, 1fr); } .pt2__intro { position: static; } .pt2__img { aspect-ratio: 16 / 10; } }
+</style>

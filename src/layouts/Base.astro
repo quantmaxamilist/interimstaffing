@@ -1,0 +1,107 @@
+---
+import '@fontsource/mona-sans/800.css';
+import '@fontsource/mona-sans/900.css';
+import '@fontsource/geist-sans/400.css';
+import '@fontsource/geist-sans/500.css';
+import '@fontsource/geist-mono/500.css';
+import '../styles/global.css';
+import fMona900 from '@fontsource/mona-sans/files/mona-sans-latin-900-normal.woff2?url';
+import fMona800 from '@fontsource/mona-sans/files/mona-sans-latin-800-normal.woff2?url';
+import fGeist400 from '@fontsource/geist-sans/files/geist-sans-latin-400-normal.woff2?url';
+import fMono500 from '@fontsource/geist-mono/files/geist-mono-latin-500-normal.woff2?url';
+import Header from '../components/site/Header.astro';
+import Footer from '../components/site/Footer.astro';
+import { company, legalEntity, google } from '../data/site';
+
+interface Props { title: string; description?: string; noindex?: boolean; crumbs?: { name: string; href: string }[]; service?: { name: string; description: string } }
+const { title, description, noindex = false, crumbs = [], service } = Astro.props;
+const SITE = 'https://interimstaffing.co.uk';
+const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/', Astro.site).href;
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {[fMona900, fMona800, fGeist400, fMono500].map((f) => <link rel="preload" href={f} as="font" type="font/woff2" crossorigin />)}
+  <title>{title}</title>
+  {description && <meta name="description" content={description} />}
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex" />}
+  <meta property="og:title" content={title} />
+  {description && <meta property="og:description" content={description} />}
+  <meta property="og:image" content={new URL('/images/interview-hero-960.jpg', Astro.site).href} />
+  <meta name="theme-color" content="#1c080b" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/icon-180.png" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <script is:inline>document.documentElement.classList.add('js');</script>
+  <meta property="og:site_name" content="Interim Staffing" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="geo.region" content="GB-ERY" />
+  <meta name="geo.placename" content="Goodmanham, East Riding of Yorkshire" />
+  <meta name="geo.position" content={`${legalEntity.geo.latitude};${legalEntity.geo.longitude}`} />
+  <meta name="ICBM" content={`${legalEntity.geo.latitude}, ${legalEntity.geo.longitude}`} />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'EmploymentAgency', '@id': `${SITE}/#business`,
+        name: company.name, legalName: legalEntity.legalName, url: SITE,
+        logo: `${SITE}/icon-512.png`, image: `${SITE}/images/interview-hero.jpg`,
+        telephone: '+44 7747 561867', email: company.email,
+        address: { '@type': 'PostalAddress', ...legalEntity.address },
+        geo: { '@type': 'GeoCoordinates', ...legalEntity.geo },
+        areaServed: [{ '@type': 'Country', name: 'United Kingdom' }, { '@type': 'AdministrativeArea', name: 'East Riding of Yorkshire' }, { '@type': 'AdministrativeArea', name: 'Yorkshire and the Humber' }],
+        knowsAbout: ['Engineering recruitment', 'Industrial recruitment', 'Commercial recruitment', 'Construction recruitment', 'Permanent recruitment', 'Temporary staffing', 'Contract recruitment'],
+        identifier: { '@type': 'PropertyValue', propertyID: 'Companies House', value: legalEntity.companyNumber },
+        sameAs: [legalEntity.companiesHouseUrl, google.profileUrl].filter(Boolean),
+        ...(google.profileUrl ? { hasMap: google.profileUrl } : {}),
+      },
+      { '@type': 'WebSite', '@id': `${SITE}/#website`, url: SITE, name: company.name, inLanguage: 'en-GB', publisher: { '@id': `${SITE}/#business` } },
+      ...(crumbs.length ? [{
+        '@type': 'BreadcrumbList',
+        itemListElement: [{ name: 'Home', href: '/' }, ...crumbs].map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: SITE + (c.href === '/' ? '/' : c.href) })),
+      }] : []),
+      ...(service ? [{
+        '@type': 'Service', name: service.name, description: service.description, serviceType: service.name,
+        provider: { '@id': `${SITE}/#business` }, areaServed: { '@type': 'Country', name: 'United Kingdom' },
+      }] : []),
+    ],
+  })} />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <Header />
+  <main id="main"><slot /></main>
+  <Footer />
+  <div class="dock" aria-label="Quick contact">
+    <a href={company.phoneHref} class="dock__call"><span class="label">Call</span> {company.phone}</a>
+    <a href="/contact" class="dock__cta">Contact now</a>
+  </div>
+  <div class="pt" aria-hidden="true" data-pt><span class="pt__bar"></span></div>
+  <div class="cursor" aria-hidden="true" data-cursor><span class="cursor__ring"></span><span class="cursor__dot"></span></div>
+  <script>import '../scripts/core.js';</script>
+</body>
+</html>
+<style>
+  .dock { display: none; }
+  @media (max-width: 760px) {
+    .dock { display: grid; grid-template-columns: 1fr 1fr; position: fixed; inset: auto 0 0; z-index: var(--z-header); background: var(--c-stage); border-top: 1px solid var(--c-line-inv); padding-bottom: env(safe-area-inset-bottom); }
+    .dock a { min-height: 56px; display: flex; align-items: center; justify-content: center; gap: .5em; text-decoration: none; font-weight: 500; font-size: .9375rem; }
+    .dock__call { color: var(--c-paper); } .dock__call .label { color: var(--c-gold); }
+    .dock__cta { background: var(--c-gold); color: var(--c-stage); font-family: var(--f-mono); text-transform: uppercase; letter-spacing: .1em; font-size: .8125rem !important; }
+    :global(body) { padding-bottom: 56px; }
+  }
+  .pt { position: fixed; inset: 0; z-index: var(--z-transition); pointer-events: none; background: var(--c-stage); transform: scaleY(0); transform-origin: bottom; }
+  .pt__bar { position: absolute; left: 50%; top: 50%; width: 10px; height: 64px; margin: -32px 0 0 -5px; background: var(--c-gold); opacity: 0; }
+  .cursor { position: fixed; left: 0; top: 0; z-index: var(--z-cursor); pointer-events: none; opacity: 0; transition: opacity var(--dur); }
+  .cursor.is-on { opacity: 1; }
+  .cursor__ring { position: absolute; width: 24px; height: 24px; margin: -12px 0 0 -12px; border: 1.5px solid var(--c-gold); border-radius: 50%; transition: transform var(--dur) var(--ease-out), background var(--dur); }
+  .cursor__dot { position: absolute; width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--c-gold); border-radius: 50%; }
+  .cursor.is-link .cursor__ring { transform: scale(1.66); background: rgba(212, 175, 55, 0.12); }
+  @media (hover: none), (pointer: coarse) { .cursor { display: none; } }
+</style>

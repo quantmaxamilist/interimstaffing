@@ -1,0 +1,8 @@
+---
+import Base from '../layouts/Base.astro';
+import Legal from '../components/site/Legal.astro';
+import { legal } from '../data/site';
+---
+<Base title={legal.privacy.title}>
+  <Legal h1={legal.privacy.h1} />
+</Base>

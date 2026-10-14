@@ -1,0 +1,64 @@
+---
+// Scroll list: rows never resize; the active row is picked by an IntersectionObserver middle band
+// and a sticky photo crossfades (opacity only).
+import Img from '../site/Img.astro';
+import { perm } from '../../data/site';
+---
+<section class="sr" data-sr>
+  <div class="container sr__grid">
+    <div class="sr__media" aria-hidden="true">
+      <div class="sr__sticky">
+        {perm.sectors.map((s, i) => <Img name={s.image} class:list={['sr__img', { 'is-on': i === 0 }]} sizes="(max-width: 860px) 100vw, 45vw" />)}
+        <span class="sr__bar"></span>
+      </div>
+    </div>
+    <div class="sr__text">
+      <p class="label sr__label" data-reveal>Sectors</p>
+      <h2 class="sr__h" data-reveal>Permanent roles by sector</h2>
+      <ol class="sr__list">
+        {perm.sectors.map((s, i) => (
+          <li class:list={['sr__row', { 'is-on': i === 0 }]} id={s.slug} data-sr-row={i}>
+            <span class="label sr__n">0{i + 1}</span>
+            <h3 class="sr__name">{s.name}</h3>
+            <ul class="sr__roles">{s.roles.map((r) => <li>{r}</li>)}</ul>
+            <a class="sr__link" href={`/contact?type=permanent&sector=${s.slug}`}>Enquire about {s.name.toLowerCase()} roles <span aria-hidden="true">→</span></a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+<style>
+  .sr { padding-block: var(--section); background: var(--c-paper); }
+  .sr__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2rem, 6vw, 6rem); }
+  .sr__sticky { position: sticky; top: calc(var(--header-h) + var(--sp-6)); aspect-ratio: 4 / 5; max-height: calc(100vh - var(--header-h) - var(--sp-8)); }
+  .sr__img { position: absolute; inset: 0; border-radius: var(--radius); opacity: 0; transition: opacity .6s var(--ease-out); }
+  .sr__img.is-on { opacity: 1; }
+  .sr__bar { position: absolute; left: -5px; bottom: -20px; width: 10px; height: 36%; background: var(--c-gold); }
+  .sr__label { color: var(--c-burgundy); }
+  .sr__h { font-size: var(--fs-display-2); color: var(--c-burgundy); margin: var(--sp-4) 0 var(--sp-7); max-width: 14ch; }
+  .sr__list { border-top: 1px solid var(--c-line); }
+  .sr__row { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: var(--sp-3) 0; padding: var(--sp-7) 0; border-bottom: 1px solid var(--c-line); scroll-margin-top: calc(var(--header-h) + var(--sp-5)); }
+  .sr__row > :not(.sr__n) { grid-column: 2; }
+  .sr__n { grid-row: 1; color: var(--c-burgundy); padding-top: .9em; }
+  .sr__name { font-size: var(--fs-display-3); color: var(--c-ink); opacity: .35; transition: opacity var(--dur) var(--ease-out), color var(--dur); }
+  .sr__row.is-on .sr__name { opacity: 1; color: var(--c-burgundy); }
+  .sr__roles { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+  .sr__roles li { font-family: var(--f-mono); font-size: var(--fs-label); letter-spacing: .08em; text-transform: uppercase; padding: .5em .8em; border: 1px solid var(--c-line); border-radius: 100px; }
+  .sr__link { justify-self: start; font-weight: 500; color: var(--c-burgundy); text-decoration-thickness: 1px; text-underline-offset: 4px; margin-top: var(--sp-2); }
+  @media (max-width: 860px) {
+    .sr__grid { grid-template-columns: minmax(0, 1fr); }
+    .sr__media { display: none; }
+    .sr__name { opacity: 1; color: var(--c-burgundy); }
+  }
+</style>
+<script>
+  const sr = document.querySelector('[data-sr]');
+  if (sr) {
+    const rows = [...sr.querySelectorAll('[data-sr-row]')];
+    const imgs = [...sr.querySelectorAll('.sr__img')];
+    const set = (i) => { rows.forEach((r, k) => r.classList.toggle('is-on', k === i)); imgs.forEach((m, k) => m.classList.toggle('is-on', k === i)); };
+    const io = new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) set(+e.target.dataset.srRow); }, { rootMargin: '-48% 0px -48% 0px' });
+    rows.forEach((r) => io.observe(r));
+  }
+</script>

@@ -1,0 +1,17 @@
+---
+// The live logo is a 405×35 PNG wordmark in gold #D4AF37 plus a gold "I" bar favicon.
+// Re-set here as live type + bar so it stays sharp at any size.
+interface Props { tone?: 'gold' | 'ink' | 'paper'; class?: string }
+const { tone = 'gold', class: cls = '' } = Astro.props;
+---
+<span class:list={['logo', `logo--${tone}`, cls]}>
+  <span class="logo__bar" aria-hidden="true"></span>
+  <span class="logo__word">Interim Staffing</span>
+</span>
+<style>
+  .logo { display: inline-flex; align-items: center; gap: 0.55em; color: var(--c-gold); line-height: 1; }
+  .logo--ink { color: var(--c-burgundy); }
+  .logo--paper { color: var(--c-paper); }
+  .logo__bar { width: 0.32em; height: 1.15em; background: var(--c-gold); flex: none; }
+  .logo__word { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; font-size: 1em; white-space: nowrap; }
+</style>

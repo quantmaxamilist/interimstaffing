@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/site/PageHero.astro';
+import Split from '../components/site/Split.astro';
+import EnquiryBand from '../components/site/EnquiryBand.astro';
+import NextTeaser from '../components/site/NextTeaser.astro';
+import WowAssemble from '../components/wow/WowAssemble.astro';
+import Reviews from '../components/site/Reviews.astro';
+import CrossLink from '../components/perm/CrossLink.astro';
+import { clients, perm } from '../data/site';
+---
+<Base title={clients.title} description={clients.intro.slice(0, 155)} crumbs={[{ name: 'Clients', href: '/clients' }]}>
+  <PageHero label="For employers" title={clients.h1} intro={clients.intro} image="warehouse-aisle" position="50% 50%" cta={{ label: 'Contact now', href: '/contact?who=employer' }} />
+  <Split index={1} h2={clients.sections[1].h2} body={clients.sections[1].body} image={clients.sections[1].image} />
+  <WowAssemble label="Temporary · contract · permanent" h2={clients.sections[0].h2} body={clients.sections[0].body} image="interview-panel" pos="50% 35%"
+    links={[
+      { label: 'Permanent team members', href: '/permanent-recruitment/employers', gold: true },
+      { label: 'Temporary support', href: '/contact?who=employer&type=temporary' },
+      { label: 'Contract staff', href: '/contact?who=employer&type=contract' },
+    ]} />
+  <Split index={2} h2={clients.sections[2].h2} body={clients.sections[2].body} image={clients.sections[2].image} flip tone="paper-2" />
+  <Reviews audience="employer" tone="paper" />
+  <CrossLink label="Permanent placements" title="Permanent hiring for employers" text={perm.employerLine} href="/permanent-recruitment/employers" />
+  <EnquiryBand text={clients.cta} href="/contact?who=employer" />
+  <NextTeaser label="For job seekers" title="Candidates" href="/candidates" />
+</Base>

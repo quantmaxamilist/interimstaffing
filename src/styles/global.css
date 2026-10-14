@@ -1,0 +1,55 @@
+@import './tokens.css';
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+body {
+  margin: 0; background: var(--c-paper); color: var(--c-ink);
+  font-family: var(--f-text); font-size: var(--fs-body); line-height: 1.6;
+  -webkit-font-smoothing: antialiased; overflow-x: clip;
+}
+img, video, canvas, svg { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; }
+h1, h2, h3, h4 { margin: 0; font-family: var(--f-display); font-weight: 800; line-height: 1.04; letter-spacing: -0.02em; font-stretch: 105%; }
+p { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--c-gold); outline-offset: 3px; }
+::selection { background: var(--c-gold); color: var(--c-stage); }
+
+.container { width: 100%; max-width: calc(var(--container) + var(--gutter) * 2); margin-inline: auto; padding-inline: var(--gutter); }
+.label { font-family: var(--f-mono); font-size: var(--fs-label); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: var(--sp-4); top: -100px; z-index: 200; background: var(--c-gold); color: var(--c-stage); padding: var(--sp-3) var(--sp-4); }
+.skip:focus { top: var(--sp-4); }
+
+/* Buttons */
+.btn {
+  --bg: var(--c-gold); --fg: var(--c-stage);
+  display: inline-flex; align-items: center; gap: 0.6em; min-height: 48px; padding: 0 1.4em;
+  background: var(--bg); color: var(--fg); text-decoration: none; border-radius: var(--radius);
+  font-family: var(--f-mono); font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur) var(--ease-out);
+  white-space: nowrap;
+}
+.btn:hover { --bg: var(--c-gold-hi); }
+.btn--burgundy { --bg: var(--c-burgundy); --fg: var(--c-paper); }
+.btn--burgundy:hover { --bg: var(--c-burgundy-hi); }
+.btn--ghost { --bg: transparent; --fg: currentColor; box-shadow: inset 0 0 0 1px currentColor; }
+.btn--ghost:hover { --bg: rgba(212, 175, 55, 0.14); }
+.btn .arr { transition: transform var(--dur) var(--ease-out); }
+.btn:hover .arr { transform: translateX(4px); }
+
+/* Shared photo grade: gentle desaturate + burgundy shadow wash so stock reads as one set. */
+.photo { position: relative; overflow: hidden; background: var(--c-deep); }
+.photo img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.82) contrast(1.06); }
+.photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(124, 1, 32, 0) 40%, rgba(59, 20, 24, 0.35)); mix-blend-mode: multiply; pointer-events: none; }
+
+/* Reveals (JS adds .js on <html>; content is visible without JS) */
+.js [data-reveal] { opacity: 0; transform: translateY(24px); }
+.js [data-reveal].is-in { opacity: 1; transform: none; transition: opacity 0.7s var(--ease-out), transform 0.8s var(--ease-out); }
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] { opacity: 1; transform: none; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

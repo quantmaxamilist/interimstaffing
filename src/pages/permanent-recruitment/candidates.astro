@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/site/PageHero.astro';
+import Split from '../../components/site/Split.astro';
+import EnquiryBand from '../../components/site/EnquiryBand.astro';
+import NextTeaser from '../../components/site/NextTeaser.astro';
+import Reviews from '../../components/site/Reviews.astro';
+import Steps from '../../components/perm/Steps.astro';
+import Levels from '../../components/perm/Levels.astro';
+import { perm, candidates } from '../../data/site';
+const p = perm.candidates;
+const s = candidates.sections[1];
+---
+<Base title={p.title} description={p.intro.slice(0, 155)} crumbs={[{ name: 'Permanent Recruitment', href: '/permanent-recruitment' }, { name: 'Candidates', href: '/permanent-recruitment/candidates' }]}>
+  <PageHero label="Permanent · for job seekers" title={p.h1} intro={p.intro} image="stock-check" position="60% 40%" cta={{ label: 'Contact now', href: '/contact?type=permanent&who=candidate' }} />
+  <Steps label="How it works" title="Your route to a permanent role" steps={perm.candidateSteps} />
+  <Split index={1} h2={s.h2} body={s.body} image="warehouse-aisle" flip tone="paper-2" />
+  <Levels />
+  <Reviews audience="candidate" tone="paper" />
+  <EnquiryBand text={p.cta} href="/contact?type=permanent&who=candidate" />
+  <NextTeaser label="Get in touch" title="Contact Us" href="/contact" />
+</Base>

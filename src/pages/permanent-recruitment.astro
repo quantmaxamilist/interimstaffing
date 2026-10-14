@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/site/PageHero.astro';
+import EnquiryBand from '../components/site/EnquiryBand.astro';
+import NextTeaser from '../components/site/NextTeaser.astro';
+import PermTeaser from '../components/perm/PermTeaser.astro';
+import SectorRows from '../components/perm/SectorRows.astro';
+import Levels from '../components/perm/Levels.astro';
+import Reviews from '../components/site/Reviews.astro';
+import Statement from '../components/perm/Statement.astro';
+import { perm, home } from '../data/site';
+---
+<Base title={perm.title} description={perm.lede} crumbs={[{ name: 'Permanent Recruitment', href: '/permanent-recruitment' }]} service={{ name: 'Permanent recruitment', description: perm.lede }}>
+  <PageHero label="Permanent placements" title={perm.h1} intro={perm.lede} image="interview-panel" position="50% 35%" cta={{ label: 'Contact now', href: '/contact?type=permanent' }} />
+  <PermTeaser variant="hub" />
+  <SectorRows />
+  <Levels />
+  <Statement label="Family-run · over 35 years" text={perm.longTerm} />
+  <Reviews />
+  <EnquiryBand text={home.cta} href="/contact?type=permanent" />
+  <NextTeaser label="For employers" title="Permanent Hiring for Employers" href="/permanent-recruitment/employers" />
+</Base>

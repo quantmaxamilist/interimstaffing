@@ -1,0 +1,20 @@
+---
+import { company } from '../../data/site';
+interface Props { h1: string }
+const { h1 } = Astro.props;
+---
+<section class="lg">
+  <div class="container lg__inner">
+    <h1 class="lg__h1">{h1}</h1>
+    <!-- The live page has no body text. Client to supply before launch. -->
+    <p class="lg__p">For any questions about this page, contact {company.name} on <a href={company.phoneHref}>{company.phone}</a> or <a href={`mailto:${company.email}`}>{company.email}</a>.</p>
+  </div>
+</section>
+<style>
+  .lg { padding: calc(var(--header-h) + var(--sp-9)) 0 var(--section); position: relative; min-height: 60vh; }
+  .lg::before { content: ''; position: absolute; inset: 0 0 auto; height: var(--header-h); background: var(--c-stage); }
+  .lg__inner { max-width: calc(760px + var(--gutter) * 2); margin-left: 0; }
+  .lg__h1 { font-size: var(--fs-display-2); color: var(--c-burgundy); margin-bottom: var(--sp-6); }
+  .lg__p { color: var(--c-ink-2); font-size: var(--fs-body-lg); }
+  .lg__p a { color: var(--c-burgundy); overflow-wrap: anywhere; }
+</style>

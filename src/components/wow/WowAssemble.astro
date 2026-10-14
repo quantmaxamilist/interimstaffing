@@ -1,0 +1,101 @@
+---
+// "The Match" (page version): one photo assembles strip by strip from both sides and locks against the
+// gold bar. Plays itself once ≥50% visible (~2.4s), pauses off screen, Replay at the end. Links arrive last.
+import { images } from '../../data/site';
+interface Props {
+  label: string; h2: string; body: string; image: string; pos?: string;
+  links: { label: string; href: string; gold?: boolean }[];
+}
+const { label, h2, body, image, pos = '50% 50%', links } = Astro.props;
+const im = images[image];
+const STRIPS = 5;
+---
+<section class="wa" data-wa>
+  <div class="container">
+    <div class="wa__head">
+      <p class="label wa__label" data-reveal><span class="wa__tick" aria-hidden="true"></span>{label}</p>
+      <h2 class="wa__h" data-reveal>{h2}</h2>
+      <p class="wa__body" data-reveal>{body}</p>
+    </div>
+    <div class="wa__stage" data-wa-stage>
+      {['l', 'r'].map((side) => (
+        <div class={`wa__half wa__half--${side}`} aria-hidden="true">
+          {Array.from({ length: STRIPS }, (_, i) => (
+            <div class="wa__strip" data-wa-strip={side}>
+              <img src={`${im.src}.jpg`} alt="" loading="lazy" decoding="async" style={`top:${-i * 100}%;object-position:${pos}`} />
+            </div>
+          ))}
+        </div>
+      ))}
+      <span class="wa__bar" data-wa-bar aria-hidden="true"></span>
+      <ul class="wa__links" data-wa-links style={`--n:${links.length}`}>
+        {links.map((l) => (
+          <li><a href={l.href} class:list={['wa__link', { 'wa__link--gold': l.gold }]}><span class="wa__t">{l.label}</span><span class="arr" aria-hidden="true">→</span></a></li>
+        ))}
+      </ul>
+      <button class="wa__replay label" data-wa-replay hidden>↺ Replay</button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wa { background: var(--c-stage); color: var(--c-paper); padding-block: var(--section); overflow: hidden; }
+  .wa__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-4) clamp(2rem, 6vw, 6rem); align-items: end; }
+  .wa__label { grid-column: 1 / -1; color: var(--c-gold); display: flex; align-items: center; gap: .75em; }
+  .wa__tick { width: 6px; height: 18px; background: var(--c-gold); }
+  .wa__h { font-size: var(--fs-display-2); max-width: 15ch; }
+  .wa__body { color: rgba(250,248,245,.75); max-width: 58ch; }
+  .wa__stage { position: relative; margin-top: var(--sp-7); display: grid; grid-template-columns: 1fr 1fr; aspect-ratio: 16 / 8.2; max-height: 74vh; width: 100%; }
+  .wa__half { position: relative; display: grid; grid-template-rows: repeat(5, 1fr); overflow: hidden; }
+  .wa__strip { position: relative; overflow: hidden; background: var(--c-deep); }
+  /* Each half shows its half of one photo: image is 2 halves wide, 5 strips tall. */
+  .wa__strip img { position: absolute; left: 0; width: 200%; height: 500%; max-width: none; object-fit: cover; filter: saturate(.82) contrast(1.06); }
+  .wa__half--r .wa__strip img { left: -100%; }
+  .wa__stage::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(28,8,11,.88) 0%, rgba(28,8,11,.1) 45%, rgba(124,1,32,.15) 100%); pointer-events: none; }
+  .wa__bar { position: absolute; left: 50%; top: -3%; bottom: 0; width: clamp(10px, 1.1vw, 18px); translate: -50% 0; background: var(--c-gold); z-index: 2; }
+  .wa__links { position: absolute; inset: auto 0 0; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); z-index: 3; border-top: 1px solid var(--c-line-inv); background: var(--c-stage); }
+  :global(.js) .wa__links { opacity: 0; transition: opacity .6s var(--ease-out); }
+  :global(.js) .wa__links.is-in { opacity: 1; }
+  .wa__links li + li { border-left: 1px solid var(--c-line-inv); }
+  .wa__link { position: relative; display: flex; align-items: center; min-height: 72px; padding: var(--sp-4) 3rem var(--sp-4) clamp(1rem, 2vw, 2rem); text-decoration: none; transition: background var(--dur) var(--ease-out); }
+  .wa__t { font-family: var(--f-display); font-weight: 800; font-size: clamp(1rem, .8rem + .7vw, 1.5rem); line-height: 1.1; }
+  .wa__link .arr { position: absolute; right: clamp(1rem, 2vw, 1.5rem); top: 50%; translate: 0 -50%; color: var(--c-gold); font-size: 1.375rem; transition: transform var(--dur) var(--ease-out); }
+  .wa__link:hover { background: rgba(124,1,32,.6); }
+  .wa__link:hover .arr { transform: translateX(6px); }
+  .wa__link--gold { background: var(--c-gold); color: var(--c-stage); }
+  .wa__link--gold .arr { color: var(--c-burgundy); }
+  .wa__link--gold:hover { background: var(--c-gold-hi); }
+  .wa__replay { position: absolute; right: var(--sp-3); top: var(--sp-3); z-index: 4; color: var(--c-gold); padding: var(--sp-3) var(--sp-4); border: 1px solid rgba(212,175,55,.4); border-radius: var(--radius); background: rgba(28,8,11,.6); }
+  @media (max-width: 860px) {
+    .wa__head { grid-template-columns: minmax(0, 1fr); }
+    .wa__stage { aspect-ratio: 4 / 5; margin-top: var(--sp-5); max-height: none; }
+    .wa__links { grid-template-columns: minmax(0, 1fr); }
+    .wa__links li + li { border-left: 0; border-top: 1px solid var(--c-line-inv); }
+    .wa__link { min-height: 56px; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  document.querySelectorAll('[data-wa]').forEach((sec) => {
+    const stage = sec.querySelector('[data-wa-stage]');
+    const links = sec.querySelector('[data-wa-links]');
+    const replay = sec.querySelector('[data-wa-replay]');
+    const bar = sec.querySelector('[data-wa-bar]');
+    const Ls = sec.querySelectorAll('[data-wa-strip="l"]');
+    const Rs = sec.querySelectorAll('[data-wa-strip="r"]');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { links.classList.add('is-in'); return; }
+    const tl = gsap.timeline({ paused: true, onComplete: () => { links.classList.add('is-in'); replay.hidden = false; } });
+    tl.fromTo(bar, { scaleY: 0, transformOrigin: '50% 0%' }, { scaleY: 1, duration: 0.7, ease: 'expo.inOut' }, 0)
+      .fromTo(Ls, { xPercent: -104 }, { xPercent: 0, duration: 1.15, ease: 'expo.out', stagger: 0.08 }, 0.45)
+      .fromTo(Rs, { xPercent: 104 }, { xPercent: 0, duration: 1.15, ease: 'expo.out', stagger: { each: 0.08, from: 'end' } }, 0.45)
+      .fromTo([...Ls, ...Rs].map((s) => s.querySelector('img')), { scale: 1.18 }, { scale: 1, duration: 1.6, ease: 'expo.out' }, 0.45);
+    let started = false;
+    new IntersectionObserver(([e]) => {
+      if (e.intersectionRatio >= 0.5 && !started) { started = true; tl.play(0); }
+      else if (!e.isIntersecting && tl.isActive()) tl.pause();
+      else if (e.isIntersecting && started && tl.paused() && tl.progress() < 1) tl.play();
+    }, { threshold: [0, 0.5] }).observe(stage);
+    replay.addEventListener('click', () => { replay.hidden = true; links.classList.remove('is-in'); tl.play(0); });
+  });
+</script>

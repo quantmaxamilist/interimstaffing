@@ -1,0 +1,97 @@
+---
+// Wow A — "The Gold I": 108 gold strands (people) fly in from a loose cloud and lock into the four
+// stacked blocks of the logo's gold bar, one block per sector. Plays itself once ≥50% visible (~2.6s).
+import { home, perm } from '../../data/site';
+const s = home.sections[1];
+---
+<section class="wc" data-wc>
+  <div class="container">
+    <div class="wc__head">
+      <p class="label wc__label" data-reveal><span class="wc__tick" aria-hidden="true"></span>Sectors &amp; roles</p>
+      <h2 class="wc__h" data-reveal>{s.h2}</h2>
+      <p class="wc__body" data-reveal>{s.body}</p>
+    </div>
+    <div class="wc__stage">
+      <div class="wc__canvas" data-wc-canvas>
+        <div class="wc__poster" aria-hidden="true" data-wc-poster>
+          {perm.sectors.map(() => <span></span>)}
+        </div>
+        <div class="wc__pins" aria-hidden="true">
+          {perm.sectors.map((_, i) => <span class="wc__pin" data-wc-pin={i}></span>)}
+        </div>
+        <button class="wc__replay label" data-wc-replay hidden>↺ Replay</button>
+      </div>
+      <ol class="wc__list" data-wc-list>
+        {perm.sectors.map((sec, i) => (
+          <li>
+            <a class="wc__item" href={`/permanent-recruitment#${sec.slug}`} data-wc-item={i}>
+              <span class="label wc__n">0{i + 1}</span>
+              <span class="wc__name">{sec.name}</span>
+              <span class="wc__roles">{sec.roles.join(' · ')}</span>
+              <span class="wc__arr" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wc { background: radial-gradient(120% 80% at 30% 60%, #3b1418 0%, var(--c-stage) 62%); color: var(--c-paper); padding-block: var(--section); overflow: hidden; }
+  .wc__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-4) clamp(2rem, 6vw, 6rem); align-items: end; }
+  .wc__label { grid-column: 1 / -1; color: var(--c-gold); display: flex; align-items: center; gap: .75em; }
+  .wc__tick { width: 6px; height: 18px; background: var(--c-gold); }
+  .wc__h { font-size: var(--fs-display-2); max-width: 14ch; }
+  .wc__body { color: rgba(250,248,245,.75); max-width: 58ch; }
+  .wc__stage { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: center; margin-top: var(--sp-7); }
+  .wc__canvas { position: relative; aspect-ratio: 5 / 4; max-height: 76vh; width: 100%; }
+  .wc__canvas :global(canvas) { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+  .wc__poster { position: absolute; left: 50%; top: 50%; width: 22%; height: 78%; translate: -50% -50%; display: grid; grid-template-rows: repeat(4, 1fr); gap: 2.4%; }
+  .wc__poster span { background: repeating-linear-gradient(90deg, #e6c55a 0 7%, #b8922a 7% 9%, transparent 9% 11.1%); }
+  .wc__poster.is-gone { display: none; }
+  .wc__pins { position: absolute; inset: 0; pointer-events: none; }
+  .wc__pin { position: absolute; left: 0; top: 0; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--c-paper); box-shadow: 0 0 0 4px rgba(212,175,55,.35); opacity: 0; transition: transform var(--dur) var(--ease-out), background var(--dur), opacity .5s var(--ease-out); }
+  .wc__pin.is-on { opacity: 1; }
+  .wc__pin.is-hot { transform: scale(1.6); background: var(--c-gold); }
+  .wc__replay { position: absolute; right: 0; bottom: 0; color: var(--c-gold); padding: var(--sp-3) var(--sp-4); border: 1px solid rgba(212,175,55,.4); border-radius: var(--radius); background: rgba(28,8,11,.6); transition: background var(--dur-fast); }
+  .wc__replay:hover { background: rgba(212,175,55,.15); }
+  .wc__list { border-top: 1px solid var(--c-line-inv); }
+  :global(.js) .wc__list { opacity: 0; transition: opacity .6s var(--ease-out); }
+  :global(.js) .wc__list.is-in { opacity: 1; }
+  .wc__item { position: relative; display: grid; grid-template-columns: 3.25rem minmax(0, 1fr); gap: var(--sp-1) 0; padding: var(--sp-5) 3rem var(--sp-5) 0; border-bottom: 1px solid var(--c-line-inv); text-decoration: none; transition: background var(--dur) var(--ease-out); }
+  .wc__n { color: var(--c-gold); grid-row: 1 / 3; padding-top: .55em; }
+  .wc__name { font-family: var(--f-display); font-weight: 800; font-size: var(--fs-statement); line-height: 1.1; transition: color var(--dur); }
+  .wc__roles { color: rgba(250,248,245,.6); font-size: var(--fs-small); }
+  .wc__arr { position: absolute; right: var(--sp-3); top: 50%; translate: 0 -50%; color: var(--c-gold); font-size: 1.375rem; transition: transform var(--dur) var(--ease-out); }
+  .wc__item:hover, .wc__item.is-hot { background: rgba(212,175,55,.08); }
+  .wc__item:hover .wc__name, .wc__item.is-hot .wc__name { color: var(--c-gold); }
+  .wc__item:hover .wc__arr, .wc__item.is-hot .wc__arr { transform: translateX(6px); }
+  @media (max-width: 860px) {
+    .wc__head { grid-template-columns: minmax(0, 1fr); }
+    .wc__stage { grid-template-columns: minmax(0, 1fr); margin-top: var(--sp-5); }
+    .wc__canvas { aspect-ratio: 1 / 1; max-height: 70svh; }
+    .wc__pins { display: none; }
+  }
+</style>
+
+<script>
+  const sec = document.querySelector('[data-wc]');
+  if (sec) {
+    const list = sec.querySelector('[data-wc-list]');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hasGL = (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; } })();
+    if (reduced || !hasGL) {
+      list.classList.add('is-in');
+    } else {
+      let mod = null;
+      const load = () => (mod ||= import('../../scripts/wow-column.js'));
+      // Fetch three.js in idle time; build when the section approaches.
+      (window.requestIdleCallback || ((f) => setTimeout(f, 1200)))(() => load());
+      const near = new IntersectionObserver((es) => {
+        if (es.some((e) => e.isIntersecting)) { near.disconnect(); load().then((m) => m.init(sec)); }
+      }, { rootMargin: '100% 0px' });
+      near.observe(sec);
+    }
+  }
+</script>

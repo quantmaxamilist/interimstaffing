@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro';
+import { contact, company, legalEntity, google } from '../data/site';
+const a = legalEntity.address;
+const types = ['Permanent', 'Temporary', 'Contract'];
+---
+<Base title={contact.title} description={contact.body.slice(0, 155)} crumbs={[{ name: 'Contact Us', href: '/contact' }]}>
+  <section class="ct">
+    <div class="container ct__grid">
+      <div class="ct__info">
+        <p class="label ct__label"><span class="ct__tick" aria-hidden="true"></span>Contact Us</p>
+        <h1 class="ct__h1">{contact.h1}</h1>
+        <a class="ct__big" href={company.phoneHref}><span class="label">Phone</span>{company.phone}</a>
+        <a class="ct__big ct__big--mail" href={`mailto:${company.email}`}><span class="label">Email</span>{company.email}</a>
+        <address class="ct__addr">
+          <span class="label">Registered office</span>
+          {legalEntity.legalName}<br />{a.streetAddress}<br />{a.addressLocality}, {a.addressRegion}<br />{a.postalCode}
+        </address>
+        {(google.profileUrl || google.reviewUrl) && (
+          <p class="ct__google">
+            {google.profileUrl && <a href={google.profileUrl} target="_blank" rel="noopener">{google.rating != null ? `${google.rating.toFixed(1)} ★ on Google (${google.count} reviews)` : 'Find us on Google'}</a>}
+            {google.reviewUrl && <a href={google.reviewUrl} target="_blank" rel="noopener">Leave a Google review</a>}
+          </p>
+        )}
+        <h2 class="ct__h2">{contact.h2}</h2>
+        <p class="ct__body">{contact.body}</p>
+      </div>
+      <form class="ct__form" data-form novalidate>
+        <fieldset class="ct__set">
+          <legend class="label">I am</legend>
+          <div class="ct__chips">
+            <label class="chip"><input type="radio" name="who" value="employer" /><span>Hiring (employer)</span></label>
+            <label class="chip"><input type="radio" name="who" value="candidate" /><span>Looking for work</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="ct__set">
+          <legend class="label">Type of role</legend>
+          <div class="ct__chips">
+            {types.map((t) => <label class="chip"><input type="checkbox" name="type" value={t.toLowerCase()} /><span>{t}</span></label>)}
+          </div>
+        </fieldset>
+        <fieldset class="ct__set">
+          <legend class="label">Sector</legend>
+          <div class="ct__chips">
+            {company.sectors.map((s) => <label class="chip"><input type="checkbox" name="sector" value={s.toLowerCase()} /><span>{s}</span></label>)}
+          </div>
+        </fieldset>
+        <div class="ct__fields">
+          <label class="field"><span class="label">Name</span><input name="name" autocomplete="name" required /></label>
+          <label class="field"><span class="label">Email</span><input name="email" type="email" autocomplete="email" required /></label>
+          <label class="field"><span class="label">Phone</span><input name="phone" type="tel" autocomplete="tel" /></label>
+          <label class="field field--full"><span class="label">Message</span><textarea name="message" rows="5"></textarea></label>
+        </div>
+        <p class="ct__err" data-form-err role="alert" hidden>Please add your name and a valid email.</p>
+        <button class="btn btn--burgundy ct__submit" type="submit">Submit <span class="arr">→</span></button>
+        <p class="ct__note">Opens your email app with your message ready to send to {company.email}.</p>
+      </form>
+    </div>
+  </section>
+</Base>
+<style>
+  .ct { background: var(--c-paper); padding: calc(var(--header-h) + var(--sp-8)) 0 var(--section); position: relative; }
+  .ct::before { content: ''; position: absolute; inset: 0 0 auto; height: var(--header-h); background: var(--c-stage); }
+  .ct__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+  .ct__label { display: flex; align-items: center; gap: .75em; color: var(--c-burgundy); }
+  .ct__tick { width: 6px; height: 18px; background: var(--c-gold); }
+  .ct__h1 { font-size: var(--fs-display-2); color: var(--c-burgundy); margin: var(--sp-4) 0 var(--sp-7); }
+  .ct__big { display: grid; gap: var(--sp-1); padding: var(--sp-4) 0; border-top: 1px solid var(--c-line); text-decoration: none; font-family: var(--f-display); font-weight: 800; font-size: var(--fs-statement); transition: color var(--dur-fast); }
+  .ct__big .label { color: var(--c-burgundy); font-family: var(--f-mono); font-weight: 500; }
+  .ct__big:hover { color: var(--c-burgundy); }
+  .ct__big--mail { font-size: clamp(1rem, .8rem + .9vw, 1.5rem); overflow-wrap: anywhere; border-bottom: 1px solid var(--c-line); }
+  .ct__addr { font-style: normal; display: grid; gap: 2px; padding: var(--sp-4) 0; border-bottom: 1px solid var(--c-line); color: var(--c-ink-2); line-height: 1.5; }
+  .ct__addr .label { color: var(--c-burgundy); margin-bottom: var(--sp-1); }
+  .ct__google { display: flex; flex-wrap: wrap; gap: var(--sp-4); padding-top: var(--sp-4); }
+  .ct__google a { color: var(--c-burgundy); font-weight: 500; }
+  .ct__h2 { font-size: clamp(1.25rem, 1rem + .6vw, 1.625rem); margin: var(--sp-7) 0 var(--sp-4); }
+  .ct__body { color: var(--c-ink-2); }
+  .ct__form { background: #fff; border: 1px solid var(--c-line); border-top: 4px solid var(--c-burgundy); padding: clamp(1.25rem, 3vw, 2.5rem); display: grid; gap: var(--sp-5); border-radius: var(--radius); }
+  .ct__set { border: 0; padding: 0; margin: 0; display: grid; gap: var(--sp-3); min-width: 0; }
+  .ct__set legend { color: var(--c-burgundy); margin-bottom: var(--sp-3); padding: 0; }
+  .ct__chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+  .chip { position: relative; cursor: pointer; }
+  .chip input { position: absolute; opacity: 0; inset: 0; }
+  .chip span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.1em; border: 1px solid var(--c-line); border-radius: 100px; font-size: .9375rem; transition: background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast); }
+  .chip input:checked + span { background: var(--c-burgundy); color: var(--c-paper); border-color: var(--c-burgundy); }
+  .chip input:focus-visible + span { outline: 2px solid var(--c-gold); outline-offset: 2px; }
+  .ct__fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-4); }
+  .field { display: grid; gap: var(--sp-2); }
+  .field--full, .field:first-child { grid-column: 1 / -1; }
+  .field .label { color: var(--c-ink-2); }
+  .field input, .field textarea { font: inherit; color: var(--c-ink); background: var(--c-paper); border: 1px solid var(--c-line); border-radius: var(--radius); padding: .85em 1em; min-height: 48px; width: 100%; }
+  .field input:focus, .field textarea:focus { outline: 2px solid var(--c-gold); outline-offset: 0; border-color: transparent; }
+  .ct__err { color: var(--c-burgundy); font-weight: 500; }
+  .ct__submit { justify-self: start; }
+  .ct__note { font-size: var(--fs-small); color: var(--c-ink-2); }
+  @media (max-width: 900px) { .ct__grid { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 480px) { .ct__fields { grid-template-columns: minmax(0, 1fr); } }
+</style>
+<script>
+  const form = document.querySelector('[data-form]');
+  if (form) {
+    const q = new URLSearchParams(location.search);
+    const tick = (name, val) => { const el = form.querySelector(`input[name="${name}"][value="${val}"]`); if (el) el.checked = true; };
+    if (q.get('who')) tick('who', q.get('who'));
+    (q.get('type') || '').split(',').forEach((v) => v && tick('type', v));
+    (q.get('sector') || '').split(',').forEach((v) => v && tick('sector', v));
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const d = new FormData(form);
+      const err = form.querySelector('[data-form-err]');
+      const ok = String(d.get('name') || '').trim() && /.+@.+\..+/.test(String(d.get('email') || ''));
+      err.hidden = !!ok;
+      if (!ok) return;
+      const lines = [
+        `Name: ${d.get('name')}`, `Email: ${d.get('email')}`, `Phone: ${d.get('phone') || '-'}`,
+        `I am: ${d.get('who') || '-'}`, `Type: ${d.getAll('type').join(', ') || '-'}`, `Sector: ${d.getAll('sector').join(', ') || '-'}`,
+        '', String(d.get('message') || ''),
+      ];
+      location.href = `mailto:clare@interimemployment.co.uk?subject=${encodeURIComponent('Website enquiry')}&body=${encodeURIComponent(lines.join('\n'))}`;
+    });
+  }
+</script>

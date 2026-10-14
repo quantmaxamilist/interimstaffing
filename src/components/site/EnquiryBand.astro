@@ -1,0 +1,27 @@
+---
+import { company } from '../../data/site';
+interface Props { text: string; href?: string }
+const { text, href = '/contact' } = Astro.props;
+---
+<section class="eb">
+  <div class="container eb__inner">
+    <span class="eb__bar" aria-hidden="true"></span>
+    <h3 class="eb__h" data-reveal>{text}</h3>
+    <div class="eb__actions" data-reveal data-reveal-delay="0.08">
+      <a class="btn btn--burgundy" href={href} data-magnetic>Contact now <span class="arr">→</span></a>
+      <a class="eb__phone" href={company.phoneHref}><span class="label">Call</span>{company.phone}</a>
+      <a class="eb__mail" href={`mailto:${company.email}`}>{company.email}</a>
+    </div>
+  </div>
+</section>
+<style>
+  .eb { background: var(--c-gold); color: var(--c-stage); padding-block: clamp(4rem, 3rem + 5vw, 7.5rem); overflow: hidden; }
+  .eb__inner { display: grid; grid-template-columns: auto minmax(0, 1.4fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: center; }
+  .eb__bar { width: 14px; align-self: stretch; background: var(--c-burgundy); min-height: 120px; }
+  .eb__h { font-size: var(--fs-display-3); font-weight: 900; max-width: 24ch; }
+  .eb__actions { display: grid; gap: var(--sp-4); justify-items: start; }
+  .eb__phone { display: flex; align-items: baseline; gap: .6em; font-family: var(--f-display); font-weight: 800; font-size: var(--fs-statement); text-decoration: none; }
+  .eb__phone .label { font-family: var(--f-mono); color: var(--c-burgundy); }
+  .eb__mail { font-size: var(--fs-small); overflow-wrap: anywhere; }
+  @media (max-width: 860px) { .eb__inner { grid-template-columns: auto minmax(0, 1fr); } .eb__actions { grid-column: 2; } }
+</style>
