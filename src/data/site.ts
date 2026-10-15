@@ -22,6 +22,8 @@ export const nav = [
 
 export const home = {
   title: 'Recruitment Experts | UK | Interim Staffing',
+  // meta description: verbatim from the live site's <meta name="description"> (indexed by Google)
+  meta: 'Interim Staffing is a UK-wide employment agency specialising in industrial, engineering, commercial, and construction roles. Learn more.',
   h1: 'Expert Recruitment Solutions Across the UK',
   intro:
     'At Interim Staffing, we offer trusted recruitment services across engineering, industrial, commercial, and construction sectors throughout the UK. As a small, family-run agency with over 35 years of experience, we take pride in providing a personalised and efficient service. Whether you’re seeking your first job or a senior executive position, our team is dedicated to matching the right talent with the right opportunity. Let us help you move forward in your career or grow your team.',
@@ -53,6 +55,7 @@ export const home = {
 
 export const clients = {
   title: 'Recruitment Services for Employers | UK | Interim Staffing',
+  meta: 'Interim Staffing provides UK employers with trusted recruitment solutions across engineering, commercial, & construction roles. Learn more.',
   h1: 'Recruitment Services for Employers Across the UK',
   intro:
     'At Interim Staffing, we support businesses across the UK with tailored recruitment solutions in engineering, industrial, commercial, and construction sectors. With over 35 years of experience, our family-run agency is committed to delivering quality candidates who align with your company’s needs and values. Whether you’re filling a single vacancy or building an entire team, we provide a flexible, reliable service to help you hire with confidence and efficiency.',
@@ -78,6 +81,7 @@ export const clients = {
 
 export const candidates = {
   title: 'Job Opportunities for Candidates | UK | Interim Staffing',
+  meta: 'Interim Staffing helps UK candidates find roles in engineering, industrial, commercial, and construction sectors. Learn more here.',
   h1: 'Candidate Support and Job Opportunities Across the UK',
   intro:
     'At Interim Staffing, we’re here to help candidates across the UK find meaningful employment in engineering, industrial, commercial, and construction sectors. Whether you’re new to the job market or an experienced professional, we take the time to understand your goals and match you with the right opportunities. With over 35 years of recruitment experience, our family-run agency offers personalised support and long-standing industry connections to help you take the next step with confidence.',
@@ -103,6 +107,7 @@ export const candidates = {
 
 export const contact = {
   title: 'Recruitment Agency | UK | Interim Staffing',
+  meta: 'Contact Interim Staffing, a UK-wide recruitment agency with over 35 years’ experience in engineering & construction staffing solutions.',
   h1: 'Connect with a Leading Recruitment Agency for Your Needs',
   h2: 'Get in Touch with Our UK Recruitment Specialists',
   body: 'Interim Staffing is a trusted, family-run employment agency providing expert recruitment services across the UK. With over 35 years of experience, we specialise in sourcing candidates for engineering, industrial, commercial, and construction roles—from entry-level to executive positions. Whether you’re a candidate seeking your next opportunity or an employer looking to fill a vacancy, we’re here to help. Contact our team today to discuss your needs or to begin your hiring or job search journey.',
@@ -111,8 +116,8 @@ export const contact = {
 // Legal pages are EMPTY on the live site (title tags still read "Privacy policy - Website title").
 // Kept as routes for SEO; the client must supply the text.
 export const legal = {
-  legalNotice: { title: 'Legal Notice | Interim Staffing', h1: 'Legal Notice' },
-  privacy: { title: 'Privacy Policy | Interim Staffing', h1: 'Privacy Policy' },
+  legalNotice: { title: 'Legal Notice | Interim Staffing', h1: 'Legal Notice', meta: 'Legal notice for Interim Staffing Ltd, registered in England and Wales, company number 12107128.' },
+  privacy: { title: 'Privacy Policy | Interim Staffing', h1: 'Privacy Policy', meta: 'Privacy policy for Interim Staffing Ltd, a UK recruitment agency.' },
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -123,6 +128,7 @@ export const legal = {
 
 export const perm = {
   title: 'Permanent Recruitment | UK | Interim Staffing', // draft
+  meta: 'Permanent recruitment from Interim Staffing, a family-run UK agency placing engineering, industrial, commercial and construction staff at every level.', // draft
   h1: 'Permanent Recruitment', // draft (descriptive label)
   // draft — recombines old-site claims: sectors, entry-to-C-suite, family-run, 35 years
   lede: 'Permanent placements across engineering, industrial, commercial and construction roles, from entry level to C-suite, from a family-run agency with over 35 years of experience.',
@@ -155,6 +161,7 @@ export const perm = {
   ],
   employers: {
     title: 'Permanent Recruitment for Employers | UK | Interim Staffing', // draft
+    meta: 'Hire permanent engineering, industrial, commercial and construction staff with Interim Staffing, a family-run UK agency with over 35 years’ experience.', // draft
     h1: 'Permanent Hiring for Employers', // draft
     // verbatim (Clients page intro, last sentence + "permanent team members" sentence)
     intro: 'At Interim Staffing, we support businesses across the UK with tailored recruitment solutions in engineering, industrial, commercial, and construction sectors. With over 35 years of experience, our family-run agency is committed to delivering quality candidates who align with your company’s needs and values.',
@@ -162,6 +169,7 @@ export const perm = {
   },
   candidates: {
     title: 'Permanent Jobs for Candidates | UK | Interim Staffing', // draft
+    meta: 'Find a permanent role in engineering, industrial, commercial or construction with Interim Staffing, a family-run UK recruitment agency.', // draft
     h1: 'Find a Permanent Role', // draft
     intro: 'At Interim Staffing, we’re here to help candidates across the UK find meaningful employment in engineering, industrial, commercial, and construction sectors. With over 35 years of recruitment experience, our family-run agency offers personalised support and long-standing industry connections to help you take the next step with confidence.',
     cta: 'Start your job search with Interim Staffing and find roles that match your skills and ambitions.',

@@ -10,7 +10,7 @@ import WowColumn from '../wow/WowColumn.astro';
 import { home } from '../../data/site';
 const [s1, , s3] = home.sections;
 ---
-<Base title={home.title} description={home.intro.slice(0, 155)} >
+<Base title={home.title} description={home.meta} >
   <HomeHero />
   <Split index={1} h2={s1.h2} body={s1.body} image={s1.image} />
   <WowColumn />

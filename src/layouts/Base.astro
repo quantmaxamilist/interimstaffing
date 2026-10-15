@@ -13,8 +13,8 @@ import Header from '../components/site/Header.astro';
 import Footer from '../components/site/Footer.astro';
 import { company, legalEntity, google } from '../data/site';
 
-interface Props { title: string; description?: string; noindex?: boolean; crumbs?: { name: string; href: string }[]; service?: { name: string; description: string } }
-const { title, description, noindex = false, crumbs = [], service } = Astro.props;
+interface Props { title: string; description?: string; noindex?: boolean; crumbs?: { name: string; href: string }[]; solidHeader?: boolean; service?: { name: string; description: string } }
+const { title, description, noindex = false, crumbs = [], service, solidHeader = false } = Astro.props;
 const SITE = 'https://interimstaffing.co.uk';
 const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/', Astro.site).href;
 ---
@@ -73,7 +73,7 @@ const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/$
     ],
   })} />
 </head>
-<body>
+<body class:list={{ 'hdr-solid': solidHeader }}>
   <a class="skip" href="#main">Skip to content</a>
   <Header />
   <main id="main"><slot /></main>

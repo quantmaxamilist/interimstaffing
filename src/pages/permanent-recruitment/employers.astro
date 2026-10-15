@@ -11,7 +11,7 @@ import { perm, clients } from '../../data/site';
 const p = perm.employers;
 const s = clients.sections[1];
 ---
-<Base title={p.title} description={p.intro.slice(0, 155)} crumbs={[{ name: 'Permanent Recruitment', href: '/permanent-recruitment' }, { name: 'Employers', href: '/permanent-recruitment/employers' }]} service={{ name: 'Permanent recruitment for employers', description: p.intro }}>
+<Base title={p.title} description={p.meta} crumbs={[{ name: 'Permanent Recruitment', href: '/permanent-recruitment' }, { name: 'Employers', href: '/permanent-recruitment/employers' }]} service={{ name: 'Permanent recruitment for employers', description: p.intro }}>
   <PageHero label="Permanent · for employers" title={p.h1} intro={p.intro} image="interview-panel" position="50% 35%" cta={{ label: 'Contact now', href: '/contact?type=permanent&who=employer' }} />
   <Steps label="How it works" title="A permanent hire, step by step" steps={perm.employerSteps} />
   <Split index={1} h2={s.h2} body={s.body} image="forklift" flip tone="paper-2" />

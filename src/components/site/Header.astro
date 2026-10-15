@@ -37,6 +37,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
   .hdr { position: fixed; inset: 0 0 auto; z-index: var(--z-header); height: var(--header-h); color: var(--c-paper);
     transition: background var(--dur) var(--ease-out), transform var(--dur) var(--ease-out), box-shadow var(--dur); }
   .hdr.is-solid { background: rgba(28, 8, 11, 0.94); box-shadow: 0 1px 0 var(--c-line-inv); }
+  :global(.hdr-solid) .hdr { background: rgba(28, 8, 11, 0.94); box-shadow: 0 1px 0 var(--c-line-inv); }
   .hdr.is-hidden { transform: translateY(-100%); }
   .hdr__inner { height: 100%; display: flex; align-items: center; gap: var(--sp-6); }
   .hdr__logo { text-decoration: none; font-size: 1.125rem; }

@@ -10,7 +10,7 @@ import Reviews from '../components/site/Reviews.astro';
 import Statement from '../components/perm/Statement.astro';
 import { perm, home } from '../data/site';
 ---
-<Base title={perm.title} description={perm.lede} crumbs={[{ name: 'Permanent Recruitment', href: '/permanent-recruitment' }]} service={{ name: 'Permanent recruitment', description: perm.lede }}>
+<Base title={perm.title} description={perm.meta} crumbs={[{ name: 'Permanent Recruitment', href: '/permanent-recruitment' }]} service={{ name: 'Permanent recruitment', description: perm.lede }}>
   <PageHero label="Permanent placements" title={perm.h1} intro={perm.lede} image="interview-panel" position="50% 35%" cta={{ label: 'Contact now', href: '/contact?type=permanent' }} />
   <PermTeaser variant="hub" />
   <SectorRows />

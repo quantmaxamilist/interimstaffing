@@ -4,7 +4,7 @@ import { contact, company, legalEntity, google } from '../data/site';
 const a = legalEntity.address;
 const types = ['Permanent', 'Temporary', 'Contract'];
 ---
-<Base title={contact.title} description={contact.body.slice(0, 155)} crumbs={[{ name: 'Contact Us', href: '/contact' }]}>
+<Base title={contact.title} description={contact.meta} crumbs={[{ name: 'Contact Us', href: '/contact' }]} solidHeader>
   <section class="ct">
     <div class="container ct__grid">
       <div class="ct__info">

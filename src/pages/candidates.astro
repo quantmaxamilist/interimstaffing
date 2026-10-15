@@ -9,7 +9,7 @@ import Reviews from '../components/site/Reviews.astro';
 import CrossLink from '../components/perm/CrossLink.astro';
 import { candidates, perm } from '../data/site';
 ---
-<Base title={candidates.title} description={candidates.intro.slice(0, 155)} crumbs={[{ name: 'Candidates', href: '/candidates' }]}>
+<Base title={candidates.title} description={candidates.meta} crumbs={[{ name: 'Candidates', href: '/candidates' }]}>
   <PageHero label="For job seekers" title={candidates.h1} intro={candidates.intro} image="welder" position="50% 50%" cta={{ label: 'Contact now', href: '/contact?who=candidate' }} />
   <Split index={1} h2={candidates.sections[0].h2} body={candidates.sections[0].body} image={candidates.sections[0].image} />
   <WowAssemble label="Permanent · temporary · contract" h2={candidates.sections[1].h2} body={candidates.sections[1].body} image="stock-check" pos="62% 45%"

@@ -10,16 +10,16 @@ const a = legalEntity.address;
       <p class="ftr__sectors label">{company.sectors.join(' · ')}</p>
     </div>
     <div>
-      <h4 class="ftr__h label">Contact</h4>
+      <h2 class="ftr__h label">Contact</h2>
       <p>Phone: <a href={company.phoneHref}>{company.phone}</a></p>
       <p>Email: <a href={`mailto:${company.email}`} class="ftr__mail">{company.email}</a></p>
     </div>
     <div>
-      <h4 class="ftr__h label">Pages</h4>
+      <h2 class="ftr__h label">Pages</h2>
       <ul>{nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
     </div>
     <div>
-      <h4 class="ftr__h label">More Links</h4>
+      <h2 class="ftr__h label">More Links</h2>
       <ul>
         <li><a href="/legal-notice">Legal Notice</a></li><li><a href="/privacy-policy">Privacy Policy</a></li>
         {google.profileUrl && <li><a href={google.profileUrl} target="_blank" rel="noopener">Google reviews</a></li>}
@@ -37,7 +37,7 @@ const a = legalEntity.address;
   .ftr__grid { display: grid; grid-template-columns: 1.6fr 1.4fr 1fr 1fr; gap: var(--sp-7); padding-bottom: var(--sp-8); }
   .ftr__logo { text-decoration: none; font-size: 1.375rem; }
   .ftr__sectors { margin-top: var(--sp-5); color: rgba(250,248,245,.5); }
-  .ftr__h { color: var(--c-gold); margin-bottom: var(--sp-4); font-family: var(--f-mono); font-weight: 500; letter-spacing: .12em; }
+  .ftr__h { font-size: var(--fs-label); line-height: 1.4; color: var(--c-gold); margin-bottom: var(--sp-4); font-family: var(--f-mono); font-weight: 500; letter-spacing: .12em; }
   .ftr a { text-decoration: none; transition: color var(--dur-fast); }
   .ftr a:hover { color: var(--c-gold); }
   .ftr li + li { margin-top: var(--sp-2); }
